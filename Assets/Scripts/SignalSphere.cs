@@ -12,7 +12,7 @@ public class SignalSphere : MonoBehaviour {
 	private HSBColor hsbSignalColor;
 	private HSBColor hsbStartColor;
 	private HSBColor hsbEndColor;
-	private float alpha = 0.75f;
+	private float alpha = 0.5f;
 	
 	//private float timeToDie = 3;	
 	private float fltDiameter = 0.0f;	

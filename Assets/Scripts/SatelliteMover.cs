@@ -24,13 +24,28 @@ public class SatelliteMover : MonoBehaviour {
 			if(Physics.Raycast(mouseCast, out hit)){
 				if(hit.transform.tag == "node"){
 					Debug.Log ("RAYCAST HIT!");
-					earth.autoPing = false;
+					//earth.autoPing = false;
+					SignalHandler.DeleteSignal();
+					buttonState = false;
+					foreach(Button btn in uiButtons){
+						btn.interactable = false;
+					}					
+					hit.transform.GetComponent<SpherePropogation>().ActivateCollider(false);
+				}
+				if(hit.transform.tag == "laser"){
+					Debug.Log ("RAYCAST HIT!");
+					//earth.autoPing = false;
+					SignalHandler.DeleteSignal();
 					buttonState = false;
 					foreach(Button btn in uiButtons){
 						btn.interactable = false;
 					}
-					
-					hit.transform.GetComponent<SpherePropogation>().ActivateCollider(false);
+					if(hit.transform.name == "LaserEnd"){
+						hit.transform.GetComponent<LaserReceive>().ActivateCollider(false);
+					}
+					if(hit.transform.name == "LaserStart"){
+						hit.transform.GetComponent<LaserSend>().ActivateCollider(false);
+					}
 				}
 			}
 		}
@@ -38,14 +53,28 @@ public class SatelliteMover : MonoBehaviour {
 			buttonState = true;
 			foreach(Button btn in uiButtons){
 				btn.interactable = true;
-			}			
-			hit.transform.GetComponent<SpherePropogation>().ActivateCollider(true);
+			}
+			if(hit.transform.tag == "node"){			
+				hit.transform.GetComponent<SpherePropogation>().ActivateCollider(true);
+			}
+			if(hit.transform.name == "LaserEnd"){
+				hit.transform.GetComponent<LaserReceive>().ActivateCollider(true);
+			}
+			if(hit.transform.name == "LaserStart"){
+				hit.transform.GetComponent<LaserSend>().ActivateCollider(true);
+			}
 		}
 		
 		if(!buttonState && hit.transform != null){
 			posMouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 			posMouse.y = 0;
 			hit.transform.position = posMouse;
+			if(hit.transform.name == "LaserStart"){
+				hit.transform.gameObject.GetComponent<LaserSend>().LookAtReceiver();
+			}
+			if(hit.transform.name == "LaserEnd"){
+				hit.transform.GetComponent<LaserReceive>().LookAtSender();
+			}
 		}
 	}
 }

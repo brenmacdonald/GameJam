@@ -12,6 +12,11 @@ public class Cost : MonoBehaviour {
 		get{ return totalCost;}
 	}
 	
+	void Start(){
+		totalCost = (int)PersistentLevelData.cost;
+		costLabel.text = "Cost: $" + totalCost.ToString("#,##0");
+	}
+	
 	public void AddToCost(int charge){
 		totalCost += charge;
 		costLabel.text = "Cost: $" + totalCost.ToString("#,##0");

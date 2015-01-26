@@ -6,6 +6,9 @@ public class Goal : MonoBehaviour {
 
 	public Text notifyLabel;
 	public SignalStart earth;
+	public GameObject dnaExplode;
+	public SoundPlayer sound;
+	public DownloadHandler downloadHandle;
 	// Use this for initialization
 	void Start () {
 	
@@ -19,10 +22,19 @@ public class Goal : MonoBehaviour {
 	void OnTriggerEnter(Collider other){		
 		if(other.tag == "signalSphere"){
 			Debug.Log ("SIGNAL RECEIVED!");
-			notifyLabel.text = "Signal Received! " + Mathf.FloorToInt(SignalHandler.signalStrength*100) + "%";
+			//notifyLabel.text = "Connection established: " + Mathf.FloorToInt(SignalHandler.networkStrength*100) + "%";
+			SignalHandler.networkStrength = SignalHandler.signalStrength;
+			downloadHandle.downloadAmount += Mathf.FloorToInt(SignalHandler.networkStrength*100);
 			Destroy (other.gameObject);
-			SignalHandler.DeleteSignal();
-			earth.autoPing = true;
+			Vector3 spawnPos = transform.position;
+			spawnPos.y = -5;
+			GameObject newDna = (GameObject)Instantiate(dnaExplode, spawnPos, transform.rotation);
+			Destroy(newDna, 1.5f);
+			sound.PlaySound (gameObject);
+			SignalHandler.CompleteSignal();
+			SignalHandler.loopComplete = true;
+			SignalHandler.loopStartTime = Time.time + 2;
+			//earth.autoPing = true;
 		}
 	}
 }

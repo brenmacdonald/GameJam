@@ -11,30 +11,37 @@ public class SatelliteSpawner : MonoBehaviour {
 	private GameObject spawnedSat;
 	private Vector3 posMouse;
 	private bool buttonState;
+	private float delay;
 	
 	private int satSpawnCount = 0;
 	
 	public void OnSpawnSattelite(){
-		earth.autoPing = false;
+		//earth.autoPing = false;
+		buttonState = false;
 		foreach(Button btn in uiButtons){
 			btn.interactable = false;
 		}
-		buttonState = false;
-		spawnedSat = (GameObject)Instantiate(satPrefab);
-		spawnedSat.name = "Sat_" + satSpawnCount;
+		SignalHandler.DeleteSignal();
 		posMouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 		posMouse.y = 0;
-		spawnedSat.transform.position = posMouse;
+		spawnedSat = (GameObject)Instantiate(satPrefab,posMouse,transform.rotation);
+		spawnedSat.name = "Sat_" + satSpawnCount;		
 		satSpawnCount++;
+		delay = Time.time + 0.1f;
 	}
 	
 	void Update(){
 		if(!buttonState && spawnedSat != null){
+			//Debug.Log ("Everything OK here");
 			posMouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 			posMouse.y = 0;
 			spawnedSat.transform.position = posMouse;
 			
-			if(Input.GetMouseButtonUp(0)){
+			if(Input.GetMouseButtonUp(0) && Time.time > delay){
+				Debug.Log ("Done: " + spawnedSat.name);
+				if(spawnedSat.GetComponent<SpherePropogation>() != null){
+					Debug.Log ("component is true");
+				}
 				foreach(Button btn in uiButtons){
 					btn.interactable = true;
 				}

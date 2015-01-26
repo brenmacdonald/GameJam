@@ -14,7 +14,7 @@ public class Obstacle : MonoBehaviour {
 	}
 	
 	void OnTriggerEnter(Collider other){		
-		if(other.tag == "signalSphere"){
+		if(other.tag == "signalSphere" || other.tag == "signalLaser"){
 			Debug.Log("INTERFERENCE!");
 			SignalHandler.DeleteSignal();
 			Destroy (other.gameObject);

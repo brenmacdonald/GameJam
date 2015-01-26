@@ -21,7 +21,7 @@ public class Asteroid : MonoBehaviour {
 	}
 	
 	void OnTriggerEnter(Collider other){		
-		if(other.tag == "signalSphere"){
+		if(other.tag == "signalLaser"){
 			Debug.Log("INTERFERENCE!");
 			SignalHandler.DeleteSignal();
 			Destroy(other.gameObject);

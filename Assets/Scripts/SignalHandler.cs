@@ -10,6 +10,8 @@ public class SignalHandler : MonoBehaviour {
 	public static float signalStrength;
 	public static float loopStartTime = 0;
 	public static bool loopComplete = false;
+	public static bool ignoreObstacle = false;
+	public static float networkStrength = 0;
 	// Use this for initialization
 	void Start () {
 		nodesIntercepted = new List<string>();
@@ -33,13 +35,17 @@ public class SignalHandler : MonoBehaviour {
 	public static void DeleteSignal(){
 		nodesIntercepted = new List<string>();
 		signalActive = false;
-		GameObject.Find("Earth").GetComponent<SignalStart>().autoPing = false;
+		loopComplete = false;
+		//GameObject.Find("Earth").GetComponent<SignalStart>().autoPing = false;
 		signalStrength = 0;
+		networkStrength = 0;
 	}
 	
 	public static void CompleteSignal(){
+		networkStrength = signalStrength;
 		nodesIntercepted = new List<string>();
 		signalActive = false;
+		signalStrength = 0;
 	}
 	
 	public static void BoostSignal(float percent){

@@ -46,7 +46,7 @@ public class SignalStart : MonoBehaviour {
 		if(spawnedSignal == null && !SignalHandler.signalActive){			
 			spawnedSignal = (GameObject)Instantiate(signalSphere, transform.position, transform.rotation);
 			//spawnedSignal.GetComponent<SignalSphere>().objInfo = gameObject;
-			spawnedSignal.GetComponent<SignalSphere>().satParentName = "none";
+			//spawnedSignal.GetComponent<SignalSphere>().satParentName = "none";
 			spawnedSignal.GetComponent<SignalSphere>().satParentName = gameObject.name;
 			//SignalHandler.signalActive = true;
 			SignalHandler.NewSignal();

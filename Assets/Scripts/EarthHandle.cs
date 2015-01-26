@@ -14,6 +14,6 @@ public class EarthHandle : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		//transform.Rotate(randomRotation.eulerAngles * (Time.deltaTime/rotSpeed));
-		transform.Rotate(Vector3.up, Time.deltaTime*rotSpeed);
+		transform.Rotate(Vector3.forward, Time.deltaTime*rotSpeed);
 	}
 }
